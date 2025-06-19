@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FemCare | PCOS Assessment Result</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #9C27B0;
+            --primary-light: #E1BEE7;
+            --secondary: #FF4081;
+            --white: #FFFFFF;
+            --gray: #F5F5F5;
+            --dark: #333333;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFF5F7;
+            color: #4A4A4A;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-container {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .result-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .risk-meter {
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(to right, 
+                #4CAF50 0%, 
+                #8BC34A 20%, 
+                #FFC107 40%, 
+                #FF9800 60%, 
+                #F44336 80%, 
+                #D32F2F 100%);
+            border-radius: 15px;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .risk-indicator {
+            position: absolute;
+            top: -20px;
+            left: calc({{ result.probability }}% - 10px);
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 3px solid var(--dark);
+            border-radius: 50%;
+            transform: rotate(45deg);
+        }
+        
+        .risk-category {
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            background-color: {{ result.color }};
+            color: white;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .advice-box {
+            background: var(--gray);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            text-align: left;
+            width: 100%;
+        }
+        
+        .probability-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 1.5rem;
+        }
+        
+        .probability-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: {{ result.color }};
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+        
+        .probability-label {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-block;
+            margin: 1rem 0;
+            transition: all 0.3s;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(156, 39, 176, 0.4);
+        }
+        
+        .action-steps {
+            text-align: left;
+            margin-top: 2rem;
+            width: 100%;
+        }
+        
+        .action-steps h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .action-steps ul {
+            padding-left: 1.5rem;
+        }
+        
+        .action-steps li {
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1rem;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .result-container {
+                padding: 1.5rem;
+            }
+            
+            .probability-circle {
+                width: 140px;
+                height: 140px;
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Your PCOS Assessment Result</h1>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="result-container">
+            <div class="result-content">
+                <div class="probability-container">
+                    <div class="probability-circle">
+                        {{ "%.0f"|format(result.probability) }}%
+                        <div class="probability-label">Risk Score</div>
+                    </div>
+                </div>
+                
+                <div class="risk-category">
+                    <h2>{{ result.category }}</h2>
+                    <p>{{ result.advice }}</p>
+                </div>
+                
+                <div class="risk-meter">
+                    <div class="risk-indicator"></div>
+                </div>
+                
+                <div class="advice-box">
+                    <h3>What This Means</h3>
+                    <p>Based on your responses, your risk score for PCOS is {{ "%.0f"|format(result.probability) }}%. This places you in the <strong>{{ result.category }}</strong> category.</p>
+                </div>
+                
+                <div class="action-steps">
+                    <h3>Recommended Next Steps</h3>
+                    {% if result.probability <= 20 %}
+                        <ul>
+                            <li>Continue maintaining a healthy lifestyle with balanced nutrition</li>
+                            <li>Monitor for any new symptoms like irregular periods</li>
+                            <li>Schedule regular check-ups with your gynecologist</li>
+                        </ul>
+                    {% elif result.probability <= 40 %}
+                        <ul>
+                            <li>Consider reducing processed foods and increasing physical activity</li>
+                            <li>Track your menstrual cycles for any irregularities</li>
+                            <li>Schedule a wellness visit with your doctor within 6 months</li>
+                        </ul>
+                    {% elif result.probability <= 60 %}
+                        <ul>
+                            <li>Schedule an appointment with a gynecologist within 3 months</li>
+                            <li>Request blood tests for hormone levels and insulin resistance</li>
+                            <li>Begin tracking all symptoms in a health journal</li>
+                        </ul>
+                    {% elif result.probability <= 80 %}
+                        <ul>
+                            <li>Schedule a gynecologist appointment within 1 month</li>
+                            <li>Request comprehensive hormone testing and pelvic ultrasound</li>
+                            <li>Implement dietary changes focusing on low glycemic foods</li>
+                        </ul>
+                    {% else %}
+                        <ul>
+                            <li>Seek medical consultation immediately (within 1-2 weeks)</li>
+                            <li>Complete full hormone panel and metabolic testing</li>
+                            <li>Begin medical management plan as recommended by your doctor</li>
+                        </ul>
+                    {% endif %}
+                </div>
+                
+                <a href="/" class="btn">Assess Again</a>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2023 FemCare PCOS Assessment Tool</p>
+    </footer>
+</body>
+</html>
