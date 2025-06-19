@@ -1,6 +1,3 @@
-# PCOD
-A machine learning-powered web application to assess Polycystic Ovary Syndrome risk
-
 # 🩺 PCOS Risk Assessment Tool
 
 ![App Screenshot](https://github.com/Karanchrish/PCOD/blob/main/SS-1.jpg)  
