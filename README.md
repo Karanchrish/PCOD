@@ -3,8 +3,7 @@ A machine learning-powered web application to assess Polycystic Ovary Syndrome r
 
 # 🩺 PCOS Risk Assessment Tool
 
-![App Screenshot](![SS-1](https://github.com/user-attachments/assets/32f6e9c9-ec3c-4120-aef5-082be6f214fd)
-)  
+![App Screenshot](https://github.com/Karanchrish/PCOD/blob/main/SS-1.jpg)  
 *A machine learning-powered web application to assess Polycystic Ovary Syndrome risk*
 
 ## 🌟 Features
