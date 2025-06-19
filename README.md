@@ -36,4 +36,4 @@ cd pcos-predictor
 pip install -r requirements.txt
 
 # Run the application
-python app.py
+python femhealth.py
